@@ -1,74 +1,108 @@
 /*
-Problem: A. Spell Check
+====================================================
+PROBLEM STATEMENT:
+====================================================
+There are n people standing in a circle (n is even).
+Each person looks at the person exactly opposite to them.
 
-Problem Statement:
-Timur allows any permutation of the letters of his name "Timur" as a valid spelling,
-but the spelling must contain exactly one uppercase 'T' and the remaining letters
-('i', 'm', 'u', 'r') must be lowercase. Given a string s, check if it is a valid spelling
-of Timur's name.
+You are given three distinct integers a, b, and c.
+It is known that person 'a' is looking at person 'b'.
 
-Approach:
-1. If the length of the string is not 5, it cannot be "Timur".
-2. Sort the given string.
-3. Sort the reference string "Timur".
-4. If both sorted strings are equal, then s is a valid permutation of "Timur".
+Determine the person that 'c' is looking at.
+If multiple answers exist, print any.
+If no valid answer exists, print -1.
 
-Time Complexity:
-O(n log n), where n = 5 (effectively constant).
-
-Space Complexity:
-O(1), uses only constant extra space.
-
-Example:
-Input:
-1
-5
-miurT
-
-Output:
-YES
-
-Question Link:
-https://codeforces.com/problemset/problem/1722/A
-
-Submission Link:
-https://codeforces.com/contest/1722/submission/345095137
+----------------------------------------------------
+PROBLEM LINK:
+https://codeforces.com/problemset/problem/1560/B
+====================================================
 */
 
-#include <iostream>
-#include <algorithm>
+/*
+====================================================
+APPROACH:
+====================================================
+If person 'a' is looking at person 'b', then:
+- The distance between them is |a - b|
+- Since they are opposite, total number of people:
+      n = 2 * |a - b|
+
+Steps:
+1. Compute dist = |a - b|
+2. Compute n = 2 * dist
+3. If a, b, or c is greater than n → invalid → print -1
+4. Otherwise, the person opposite to c is:
+   - c + dist (if within n)
+   - else c - dist
+
+----------------------------------------------------
+WHY THIS WORKS:
+- In a circular arrangement, opposite positions differ
+  by exactly n/2 positions.
+====================================================
+*/
+
+/*
+====================================================
+TIME & SPACE COMPLEXITY:
+====================================================
+Time Complexity:  O(1) per test case
+Space Complexity: O(1)
+====================================================
+*/
+
+/*
+====================================================
+EXAMPLE:
+====================================================
+Input:
+1
+1 3 2
+
+Output:
+4
+
+Explanation:
+|1 - 3| = 2 → n = 4
+Opposite of 2 is 2 + 2 = 4
+====================================================
+*/
+
+/*
+====================================================
+SUBMISSION LINK:
+====================================================
+https://codeforces.com/contest/1560/submission/345095137
+====================================================
+*/
+
+#include <bits/stdc++.h>
 using namespace std;
 
-void spellCheck() {
-    int n;
-    cin >> n;
-
-    string s;
-    cin >> s;
-
-    if (n != 5) {
-        cout << "NO\n";
-        return;
-    }
-
-    string name = "Timur";
-
-    sort(s.begin(), s.end());
-    sort(name.begin(), name.end());
-
-    if (s == name) {
-        cout << "YES\n";
-    } else {
-        cout << "NO\n";
-    }
-}
+#define fastio() ios::sync_with_stdio(false); cin.tie(nullptr);
 
 int main() {
+    fastio();
+
     int t;
     cin >> t;
 
     while (t--) {
-        spellCheck();
+        long long a, b, c;
+        cin >> a >> b >> c;
+
+        long long dist = llabs(a - b);
+        long long n = 2 * dist;
+
+        if (a > n || b > n || c > n) {
+            cout << -1 << '\n';
+            continue;
+        }
+
+        if (c + dist <= n)
+            cout << c + dist << '\n';
+        else
+            cout << c - dist << '\n';
     }
 
     return 0;

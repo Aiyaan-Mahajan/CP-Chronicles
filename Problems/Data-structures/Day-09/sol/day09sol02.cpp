@@ -1,6 +1,19 @@
 //submission link- https://codeforces.com/contest/61/submission/356380170
 
 
+/*
+1. First, we change the big numbers into simple ranks (1, 2, 3...) so they are easy to count.
+2. We treat each number as the middle person and look at its neighbors.
+3. We count how many numbers to the left are bigger than our middle number.
+4. We count how many numbers to the right are smaller than our middle number.
+5. We multiply the bigger-left count by the smaller-right count to get the total triplets.
+6. We add up the triplets for every middle number to get the final answer.
+
+Time Complexity: O(N \log N)
+Space Complexity: O(N)
+*/
+
+
 #include <bits/stdc++.h>
 using namespace std;
 
